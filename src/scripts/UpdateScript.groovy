@@ -4,34 +4,21 @@
         @Grab(group='ch.qos.logback', module='logback-classic', version='0.9.28'),
         @Grab(group='org.apache.httpcomponents', module='httpclient', version='4.5.13')
 ])
-
-import groovy.json.JsonSlurper
 import groovy.json.JsonOutput
+import groovy.transform.Field
 import org.apache.http.client.entity.UrlEncodedFormEntity
-import org.apache.http.client.methods.HttpGet
-import org.apache.http.client.methods.HttpPost
-import org.apache.http.client.methods.HttpPatch
 import org.apache.http.client.methods.HttpDelete
+import org.apache.http.client.methods.HttpGet
+import org.apache.http.client.methods.HttpPatch
+import org.apache.http.client.methods.HttpPost
+import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.impl.client.HttpClients
 import org.apache.http.message.BasicNameValuePair
-import org.apache.http.entity.StringEntity
-import org.apache.http.client.methods.CloseableHttpResponse
-
-import groovy.transform.Field
-import net.sf.json.JSONNull
-
-import org.slf4j.*
-
 import org.forgerock.openicf.connectors.groovy.OperationType
 import org.forgerock.openicf.connectors.groovy.ScriptedConfiguration
 import org.identityconnectors.common.logging.Log
-import org.identityconnectors.framework.common.objects.Attribute
-import org.identityconnectors.framework.common.objects.AttributesAccessor
-import org.identityconnectors.framework.common.objects.ObjectClass
-import org.identityconnectors.framework.common.objects.OperationOptions
-import org.identityconnectors.framework.common.objects.Uid
-import org.identityconnectors.framework.common.exceptions.ConnectorException
+import org.identityconnectors.framework.common.objects.*
 
 def operation = operation as OperationType
 def configuration = configuration as ScriptedConfiguration
@@ -53,7 +40,6 @@ def log = log as Log
 @Field final POPULATION_URL = "https://api.pingone.com/v1/environments/${ENV_ID}/populations"
 @Field final ROLE_URL = "https://api.pingone.com/v1/roles"
 
-
 def dataMap = [:]
 
 // Initialize sub-maps for the name and population attributes
@@ -72,6 +58,7 @@ def userId = null
 def userName = null
 def firstName = null
 def lastName = null
+def email = null
 def currentRoles = []
 
 println "Update Payload: " + updateAttributes
@@ -81,36 +68,42 @@ if (updateAttributes.hasAttribute("userName")) {
 dataMap["username"] = userName
 if (updateAttributes.hasAttribute("givenName")) {
     firstName = updateAttributes.findString("givenName")
+    nameMap["given"] = firstName
 }
 if (updateAttributes.hasAttribute("sn")) {
     lastName = updateAttributes.findString("sn")
+    nameMap["family"] = lastName
 }
-nameMap["given"] = firstName
-nameMap["family"] = lastName
+
+
 
 dataMap["name"] = nameMap
 if (updateAttributes.hasAttribute("email")) {
     email = updateAttributes.findString("email")
+    dataMap["email"] = email
 }
-dataMap["email"] = email
+
 
 if (updateAttributes.hasAttribute("populationid")) {
     populationid = updateAttributes.findString("populationid")
+    populationMap["id"] = populationid
+    dataMap["population"] = populationMap
 }
-populationMap["id"] = populationid
-dataMap["population"] = populationMap
+
 
 if (updateAttributes.hasAttribute("accountStatus")) {
     accountStatus = updateAttributes.findString("accountStatus")
+    accountMap["status"] = accountStatus
 }
 
 if (updateAttributes.hasAttribute("canAuthenticate")) {
     canAuthenticate = updateAttributes.findString("canAuthenticate")
     accountMap["canAuthenticate"] = canAuthenticate
+    dataMap["account"] = accountMap
 }
 
-accountMap["status"] = accountStatus
-dataMap["account"] = accountMap
+
+
 
 if (updateAttributes.hasAttribute("enabled")) {
     enabled = updateAttributes.findString("enabled")
@@ -158,10 +151,10 @@ if (updateAttributes.hasAttribute("groupMemberships")) {
         groupMemberships = null
         println "Will revoke all group memberships"
         // revoke all group memberships
-        def currentGroups = getCurrentGroupsforUser(userId,access_token)
-        currentGroups.each { currentGroup ->
-            if(!groupMemberships.contains(currentGroup)){
-                //revoke group
+        def currentGroups = null
+        currentGroups = getCurrentGroupsforUser(userId,access_token)
+        if(currentGroups){
+            currentGroups.each { currentGroup ->
                 revokeGroupFromUser(userId,currentGroup,access_token)
             }
         }
@@ -178,6 +171,8 @@ if (updateAttributes.hasAttribute("groupMemberships")) {
                 println "Revoking Group Membership: ${currentGroup}"
                 //revoke group
                 revokeGroupFromUser(userId,currentGroup,access_token)
+            } else {
+                println "Group Membership: ${currentGroup} is already present"
             }
         }
         //Add new group memberships
@@ -198,7 +193,7 @@ def addGroupToUser(String userId, String groupId, String access_token){
     def grpMemData = [:]
     CloseableHttpClient httpClient = HttpClients.createDefault();
     grpMemPost = new HttpPost(grpMemUrl)
-    println "Add Group ToGroup Membership URL: ${grpMemUrl}"
+    //println "Add Group ToGroup Membership URL: ${grpMemUrl}"
     grpMemPost.addHeader("Content-Type", "application/json")
     grpMemPost.addHeader("Authorization", "Bearer ${access_token}")
     grpMemData["id"] = groupId
@@ -207,6 +202,7 @@ def addGroupToUser(String userId, String groupId, String access_token){
     println "Group Membership Payload: ${grpMemJsonData}"
     def grpMemResponse = httpClient.execute(grpMemPost)
     def grpMemResponseData = new groovy.json.JsonSlurper().parseText(grpMemResponse.entity.content.text)
+    println "Group Membership Response: ${grpMemResponseData}"
 
 }
 def revokeGroupFromUser(String userId, String groupId, String access_token){

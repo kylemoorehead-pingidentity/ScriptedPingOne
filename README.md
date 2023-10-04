@@ -12,7 +12,7 @@
 1. A PingOne Environment
 2. A ForgeRock Identity Cloud tenancy
 
-Configuration Steps
+**Configuration Steps for PingOne as a target application**
 1. Create a Worker app with Identity Data Admin privileges
    ![image](https://github.com/srallapally/ScriptedPingOne/assets/84463098/048cb40d-4962-41ed-9dd2-e6ae5695a238)
 2. **Ensure that you have selected Client Credentials and Client Secret Post**
@@ -45,5 +45,18 @@ and the environment id (of the environment you want to manage)
 ![image](https://github.com/srallapally/ScriptedPingOne/assets/84463098/bc12a6be-fc01-428a-ba76-de807b25ec67)
 
 17.  Navigate to Users and Roles and assign the app to a user (or a role)
-   
 
+**Optional**
+1. To configure PingOne as an authoritative app (or profile master), check the authoritative checkbox while creating the app
+2. Define an inbound mapping
+3. Configure the correlation query so that you can run authoritative recon and bring in new and modified users
+   
+**Some more errata**
+PingOne APIs use cursor-based paging. The SearchScript passes the cursor in the pagedResultsCookie. The issue you run into is that
+the UI doesn't know about this. To fix this, you need to add the following parameters to the inbound mapping (App --> ID Cloud) using PUT
+ "reconSourceQueryPaging" : true,
+ "reconSourceQueryPageSize" : 20,
+ "sourceQueryFullEntry" : true,
+ "sourceQuery" : {
+      "_queryFilter" : "true"
+}

@@ -119,7 +119,7 @@ _Note: Other JDK versions may work, but a couple that did not were found while t
     ```
   </details>
 
-- Wait until you see the following message and the return to your ForgeRock Identity Cloud Administrator Console. If you navigate to Identities > Connect, your RCS should now show <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-Connected.png?raw=true" width="70%">.
+- Wait until you see the following message and the return to your ForgeRock Identity Cloud Administrator Console. If you navigate to Identities > Connect, your RCS should now show <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-Connected.png?raw=true" height="40">.
 ```
 RCS 1.5.20.15 started.
 Press q to shutdown.

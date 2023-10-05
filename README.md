@@ -5,6 +5,7 @@
 - [Download Scripts and Configuration Files](#download-scripts-and-configuration-files)
 - [Install ForgeRock RCS](#install-forgerock-rcs)
 - [Configure ForgeRock Identity Cloud](#configure-forgerock-identity-cloud)
+- [Start the RCS](#start-the-rcs)
 
 
 ### Prerequisites
@@ -69,6 +70,7 @@ _Note: Other JDK versions may work, but a couple that did not were found while t
     whoami
     ```
   </details>
+  
 - Copy the `scripts` and `conf` into your RCS directory
   <details>
     <summary>Windows</summary>
@@ -85,21 +87,40 @@ _Note: Other JDK versions may work, but a couple that did not were found while t
     whoami
     ```
   </details>
+  
 - Open `~\RCS\openicf\conf\ConnectorServer.properties` in your IDE of choice and update the values enclosed in angle brackets (`< >`) to match your environment
   - On line 42 and 99, replace `<FR-FQDN>` with the FQDN of your ForgeRock Identity Cloud console. E.g. `openam-jckyle1.forgeblocks.com`
-  - On line 50, replace `<name>` with whatever you choose. This will be how you identify this RCS in ForgeRock Identity Cloud. Only use lowercase letters and dashes (`-`). Remeber this value as you will need it later (NOTE TO KYLE - Add link to correct section of instructions when they exist)
-  - On line 107, replace `<client-secret>` with whatever you choose. Remember this value as you will need it later (NOTE TO KYLE - Add link to correct section of instructions when they exist)
+  - On line 50, replace `<name>` with whatever you choose. This will be how you identify this RCS in ForgeRock Identity Cloud. Only use lowercase letters and dashes (`-`). Remeber this value as you will need it later while [Configuring ForgeRock Identity Cloud](#configure-forgerock-identity-cloud).
+- On line 107, replace `<client-secret>` with whatever you choose. Remember this value as you will need it later while [Configuring ForgeRock Identity Cloud](#configure-forgerock-identity-cloud).
 
 ### Configure ForgeRock Identity Cloud
 - Sign in to the ForgeRock Identity Cloud Administrative Console.
-- Navigate to OAuth2 Clients > RCSClient
-  <details>
-    <summary>Image</summary>
-    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-OAuth2Client.png?raw=true" width="auto">
-  </details>
-- Navigate to the Sign On tab and click Reset on the Client Secret. Set this to the same value as the `<client-secret>` you set on line 107 of the `ConnectorServer.properties` file.
-  <details>
-    <summary>Image</summary>
-    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-RCSClient.png?raw=true" width="auto">
-  </details>
   
+- Using the sidebar, navigate to Identities > Connect. Click + New Connector Server.
+  <details>
+    <summary>Image</summary>
+    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-NewRCS.png?raw=true" width="auto">
+  </details>
+
+- In the modal, enter the name you set on link 50 of the `ConnectorServer.properties` file. Click Save.
+- On the next screen, click Reset on the Client Secret. Set this to the same value as the `<client-secret>` you set on line 107 of the `ConnectorServer.properties` file.
+  <details>
+    <summary>Image</summary>
+    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-RCSClientSecret.png?raw=true" width="auto">
+  </details>
+
+### Start the RCS
+- On the server that you installed ForgeRock RCS, start the RCS.
+  <details>
+    <summary>Windows</summary>
+  
+    ```PowerShell
+    & ~\RCS\openicf\bin\ConnectorServer.bat /run
+    ```
+  </details>
+
+- Wait until you see the following message and the return to your ForgeRock Identity Cloud Administrator Console. If you navigate to Identities > Connect, your RCS should now show ![https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-Connected](https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-Connected.png).
+```
+RCS 1.5.20.15 started.
+Press q to shutdown.
+```

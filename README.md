@@ -157,7 +157,7 @@ Press q to shutdown.
   </details>
 
 - Select your RCS and click Next.
-- On the modal, provide the path to your scripts folder on the server. Then provide the name of each script.
+- On the modal, provide the path to your scripts folder on the server. Then, provide the name of each script.
   <details>
     <summary>Image</summary>
     <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-ConnectorConfiguration.png?raw=true" width="auto">
@@ -165,7 +165,7 @@ Press q to shutdown.
 
 - For Custom Sensitive Configuration, enter the Environment ID, Client ID, and Client Secret from your PingOne Worker application in the following format. \
   ```ENV_ID='<env-id>';CLIENT_ID='<client-id>';CLIENT_SECRET='<client-secret>';``` \
-  _Note: This value is not persisted in the GUI. To change these values, re-enter the whole string. If security is not a concern, you can also use the Custom Configuration field that is available under Show advanced settings. This field functions similarly but is persisted to the GUI and can quickly and easily be updated._
+  _Note: This value does not persist in the GUI. To change these values, re-enter the whole string. If security is not a concern, you can use the Custom Configuration field available under Show advanced settings. This field functions similarly but is persisted to the GUI and can quickly and easily be updated._
   <details>
     <summary>Image - Custom Sensitive Configuration</summary>
     <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-CustomSensitiveConfiguration.png?raw=true" width="auto">
@@ -175,5 +175,19 @@ Press q to shutdown.
     <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-CustomConfiguration.png?raw=true" width="auto">
   </details>
 
+- Click Connect.
+- Navigate to the Provisioning tab and select Data. After a brief moment, you should see the users from your PingOne environment populate.
+  <details>
+    <summary>Image</summary>
+    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-AccountDataInbound.png?raw=true" width="auto">
+  </details>
+
+- Navigate to Mapping > Inbound and map your PingOne attributed to ForgeRock Identity Cloud attributes.
+  <details>
+    <summary>Image</summary>
+    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-AccountMappingInbound.png?raw=true" width="auto">
+  </details>
+
+- Navigate to Reconciliation > Settings, then scroll down to Show advanced settings
 
 ### Configure the Outbound Application

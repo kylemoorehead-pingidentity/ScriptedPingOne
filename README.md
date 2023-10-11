@@ -8,6 +8,7 @@
 - [Start the RCS](#start-the-rcs)
 - [Configure the Inbound Application](#configure-the-inbound-application)
 - [Configure the Outbound Application](#configure-the-outbound-application)
+- [Useage Examples](#useage-examples)
 
 
 ### Prerequisites
@@ -252,20 +253,40 @@ _Note: Many of the steps detailed here are very similar, if not the same, as [Co
     <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-AccountDataInbound.png?raw=true" width="auto">
   </details>
 
-- Navigate to Mapping > Inbound and map your PingOne attributed to ForgeRock Identity Cloud attributes.
+- Navigate to Properties and edit the groupMemberships property.
+  - Check the Constrain values for this property box.
+  - Select Application Object Type and set the Select Object Type to `__GROUP__`.
+  - Set the Object Type Property to `_id`.
+  - Check the Entitlement box.
+  - Click Save.
   <details>
     <summary>Image</summary>
-    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-AccountMappingInbound.png?raw=true" width="auto">
-  </details>
-### KYLE START HERE
-- Navigate to Reconciliation > Settings, scroll down to Show advanced settings, check the Persist Associations box, and click Save. This setting can be disabled later but is a useful visualization and troubleshooting tool.
-  <details>
-    <summary>Image</summary>
-    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-PersistAssociations.png?raw=true" width="auto">
+    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-GroupMemberships.png?raw=true" width="auto">
   </details>
 
-- Navigate to Reconciliation > Reconcile and click Reconcile Now. This will get information from your PingOne users and create them in ForgeRock Identity Cloud based on your Inbound Mapping.
+- Change to the \_\_GROUP\_\_ drop down and set the Display Name Attribute to `__NAME__`.
+  <details>
+    <summary>Image</summary>
+    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-GroupDisplayName.png?raw=true" width="auto">
+  </details>
+- Navigate to Data. After a second, you should see your PingOne groups populate the data tab.
+- Navigate to Reconciliation and click Reconcile Now. After ~10 minutes, your groups will appear as Entitlements in ForgeRock Identity Cloud.
   <details>
     <summary>Image</summary>
     TODO: Capture an image of an initial reconciliation
   </details>
+
+- Navigate to Entitlements in the sidebar. Once the Entitlements have appeared, provide each one with an Entitlement Owner and check the Requestable box if you would like this entitlement to be requestable by your end users. The Entitlement Owner is who will receive the requests by default.
+  <details>
+    <summary>Image</summary>
+    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-Entitlements.png?raw=true" width="auto">
+  </details>
+
+- Navigate back to your Outbound application, then navigate to Mapping > Outbound and map your PingOne attributes to ForgeRock Identity Cloud attributes.
+  <details>
+    <summary>Image</summary>
+    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-AccountMappingOutbound.png?raw=true" width="auto">
+  </details>
+
+### Usage Examples
+TODO: Include Usage Examples

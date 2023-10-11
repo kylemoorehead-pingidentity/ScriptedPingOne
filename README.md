@@ -188,6 +188,84 @@ Press q to shutdown.
     <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-AccountMappingInbound.png?raw=true" width="auto">
   </details>
 
-- Navigate to Reconciliation > Settings, then scroll down to Show advanced settings
+- Navigate to Reconciliation > Settings, scroll down to Show advanced settings, check the Persist Associations box, and click Save. This setting can be disabled later but is a useful visualization and troubleshooting tool.
+  <details>
+    <summary>Image</summary>
+    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-PersistAssociations.png?raw=true" width="auto">
+  </details>
+
+- Navigate to Reconciliation > Reconcile and click Reconcile Now. This will get information from your PingOne users and create them in ForgeRock Identity Cloud based on your Inbound Mapping.
+  <details>
+    <summary>Image</summary>
+    TODO: Capture an image of an initial reconciliation
+  </details>
 
 ### Configure the Outbound Application
+_Note: Many of the steps detailed here are very similar, if not the same, as [Configure the Inbound Application](#configure-the-inbound-application), but not all. Pay close attention._
+
+- In your ForgeRock Identity Cloud Platform UI, navigate to Applications, then click Browse App Catalog.
+  <details>
+    <summary>Image</summary>
+    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-AppCatalog.png?raw=true" width="auto">
+  </details>
+
+- Search for "Groovy" and select the Scripted Groovy Connector.
+  <details>
+    <summary>Image</summary>
+    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-ScriptedGroovy.png?raw=true" width="auto">
+  </details>
+
+- Name your connector. Suggestion: "ScriptedPingOne - Outbound"
+- Select an Application Owner.
+- DO NOT Check the Authoritative box.
+- [Optional] Provide a description and a logo.
+- Click Create Application.
+- On the next page, select the Provisioning tab, then click Set up Provisioning.
+  <details>
+    <summary>Image</summary>
+    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-OutboundApplication.png?raw=true" width="auto">
+  </details>
+
+- Select your RCS and click Next.
+- On the modal, provide the path to your scripts folder on the server. Then, provide the name of each script.
+  <details>
+    <summary>Image</summary>
+    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-ConnectorConfiguration.png?raw=true" width="auto">
+  </details>
+
+- For Custom Sensitive Configuration, enter the Environment ID, Client ID, and Client Secret from your PingOne Worker application in the following format. \
+  ```ENV_ID='<env-id>';CLIENT_ID='<client-id>';CLIENT_SECRET='<client-secret>';``` \
+  _Note: This value does not persist in the GUI. To change these values, re-enter the whole string. If security is not a concern, you can use the Custom Configuration field available under Show advanced settings. This field functions similarly but is persisted to the GUI and can quickly and easily be updated._
+  <details>
+    <summary>Image - Custom Sensitive Configuration</summary>
+    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-CustomSensitiveConfiguration.png?raw=true" width="auto">
+  </details>
+  <details>
+    <summary>Image - Custom Configuration</summary>
+    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-CustomConfiguration.png?raw=true" width="auto">
+  </details>
+
+- Click Connect.
+- Navigate to the Provisioning tab and select Data. After a brief moment, you should see the users from your PingOne environment populate.
+  <details>
+    <summary>Image</summary>
+    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-AccountDataInbound.png?raw=true" width="auto">
+  </details>
+
+- Navigate to Mapping > Inbound and map your PingOne attributed to ForgeRock Identity Cloud attributes.
+  <details>
+    <summary>Image</summary>
+    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-AccountMappingInbound.png?raw=true" width="auto">
+  </details>
+### KYLE START HERE
+- Navigate to Reconciliation > Settings, scroll down to Show advanced settings, check the Persist Associations box, and click Save. This setting can be disabled later but is a useful visualization and troubleshooting tool.
+  <details>
+    <summary>Image</summary>
+    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-PersistAssociations.png?raw=true" width="auto">
+  </details>
+
+- Navigate to Reconciliation > Reconcile and click Reconcile Now. This will get information from your PingOne users and create them in ForgeRock Identity Cloud based on your Inbound Mapping.
+  <details>
+    <summary>Image</summary>
+    TODO: Capture an image of an initial reconciliation
+  </details>

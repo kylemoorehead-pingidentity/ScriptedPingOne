@@ -223,7 +223,7 @@ _Note: Many of the steps detailed here are very similar, if not the same, as [Co
 - On the next page, select the Provisioning tab, then click Set up Provisioning.
   <details>
     <summary>Image</summary>
-    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-OutboundApplication.png?raw=true" width="auto">
+    <img src="https://github.com/kylemoorehead-pingidentity/ScriptedPingOne/blob/master/images/FRIC-OutboundSetupProvisioning.png?raw=true" width="auto">
   </details>
 
 - Select your RCS and click Next.
